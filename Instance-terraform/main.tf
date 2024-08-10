@@ -48,7 +48,7 @@ data "aws_ami" "ubuntu" {
 
 # Create the IAM Role and Attach the Administrator Policy
 resource "aws_iam_role" "chatgpt_role" {
-  name = "swiggy-role"
+  name = "chatgpt-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -95,14 +95,16 @@ resource "aws_instance" "web" {
 
 # PROMETHEUS GRAFANA WEB INSTANCE
 resource "aws_instance" "web2" {
-  ami                    = data.aws_ami.ubuntu.id #change your ami value according to your aws instance 
+  ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.medium"
   key_name               = "jenkins"
   vpc_security_group_ids = [aws_security_group.Jenkins-sg.id]
+  user_data              = file("./install_monitoring_stack.sh")
   tags = {
-    Name = "Monitering via grafana"
+    Name = "Monitoring via grafana"
   }
   root_block_device {
     volume_size = 30
   }
 }
+
