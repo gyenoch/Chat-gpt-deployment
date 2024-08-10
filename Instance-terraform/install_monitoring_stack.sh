@@ -84,6 +84,8 @@ sudo tee -a /etc/prometheus/prometheus.yml > /dev/null <<EOF
       - targets: ["localhost:8080"]
 EOF
 
+# Make sure to change the Jenkins targets ["localhost:8080"] to your Jenkins hostname
+
 # Enable and start Prometheus
 sudo systemctl daemon-reload
 sudo systemctl enable prometheus > /dev/null
